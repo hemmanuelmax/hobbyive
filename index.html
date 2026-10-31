@@ -59,6 +59,11 @@ dialog::backdrop{background:#0009}dialog h2{margin:0 0 12px}dialog label{display
 input[type=search]{-webkit-appearance:none;appearance:none}
 .brand{display:flex;align-items:center;gap:8px}
 #hero{position:relative;overflow:hidden}.deco{position:absolute;inset:0;pointer-events:none}.ti{width:1em;height:1em;flex:none}.deco svg{position:absolute;color:rgba(255,255,255,.2)}#hero>div:not(.deco){position:relative;z-index:1}.hero .big svg{color:#fff}.ci .em svg{font-size:20px}
+html{-webkit-text-size-adjust:100%}main{min-width:0}.post,.card{overflow-wrap:anywhere}dialog{max-height:88vh;overflow:auto}
+@media(max-width:820px){.bar{flex-wrap:wrap;gap:6px}.brand{font-size:18px}#cq{padding:8px 12px}#newc{padding:8px;font-size:13px}
+#clist{gap:6px;padding-bottom:4px;scrollbar-width:none}#clist::-webkit-scrollbar{display:none}.ci{padding:8px 12px;border-radius:99px;border:1px solid var(--line)}.ci .n{display:none}
+input,select,textarea{font-size:16px}.hero{flex-direction:column;align-items:flex-start;gap:6px;padding:18px}.hero h1{font-size:24px}.hero p{font-size:14px}.hero .big{font-size:36px}
+.card,.post{padding:14px;border-radius:14px}.post h3{font-size:17px}.tools select{width:100%}.media{grid-template-columns:1fr}dialog{padding:16px}.act button{padding:8px 14px}}
 </style>
 </head>
 <body>
@@ -80,7 +85,7 @@ input[type=search]{-webkit-appearance:none;appearance:none}
 </main>
 </div>
 
-<dialog id="dA"><h2>Join Hobbyhive</h2><label>Username (sign up only): 3-20 letters, numbers or _</label><input id="aN" maxlength="20" placeholder="e.g. Ghost_01" autocomplete="off"><label>Email</label><input id="aE" type="email" autocomplete="email"><label>Password (6+ characters)</label><input id="aP" type="password" autocomplete="current-password"><div class="row" style="margin-top:14px"><button id="aIn" class="btn">Sign in</button><button id="aUp" class="btn plain">Sign up</button></div></dialog>
+<dialog id="dA"><h2>Join Hobbyhive</h2><label>Username (sign up only): 3-20 letters, numbers or _</label><input id="aN" maxlength="20" placeholder="e.g. Ghost_01" autocomplete="off"><label>Email</label><input id="aE" type="email" autocomplete="email"><label>Password</label><input id="aP" type="password" autocomplete="current-password"><label style="display:flex;gap:8px;align-items:center;margin:8px 0 0;font-weight:400"><input type="checkbox" id="aSh" style="width:auto"> Show password</label><div style="font-size:12px;color:var(--mut);margin-top:6px">For sign up: 8+ characters with a letter, a number and a special character (like ! @ # $ %).</div><div class="row" style="margin-top:14px"><button id="aIn" class="btn">Sign in</button><button id="aUp" class="btn plain">Sign up</button></div><div class="row" style="margin-top:8px"><button id="aX" class="btn plain" type="button">Cancel</button></div></dialog>
 <dialog id="dC"><h2 id="cH">Create a community</h2>
 <div class="row"><div style="flex:0 0 80px;min-width:80px"><label>Emoji</label><input id="cE" value="✨" maxlength="4"></div><div><label>Name</label><input id="cN" maxlength="30"></div></div>
 <label>Tagline</label><input id="cT" maxlength="80">
@@ -187,11 +192,12 @@ else if(a==='rep'){const why=prompt('Why are you reporting this post?');if(!why)
 else if(a==='send'){const v=art.querySelector('.ci2').value.trim();if(!v)return;r=await sb.from('comments').insert({post_id:p.id,author_id:S.u.id,author_name:nm(),body:v})}
 if(r&&r.error)alert(r.error.message);await loadP()};
 $('#feed').onkeydown=e=>{if(e.key==='Enter'&&e.target.classList.contains('ci2'))e.target.closest('.post').querySelector('[data-a="send"]').click()};
-const auth=async mode=>{const email=$('#aE').value.trim(),pw=$('#aP').value,name=$('#aN').value.trim();if(!email||pw.length<6){alert('Enter an email and a password of 6+ characters.');return}
-if(mode==='up'){if(!/^[A-Za-z0-9_]{3,20}$/.test(name)){alert('Pick a username of 3-20 letters, numbers or underscores (no spaces).');return}const av=await sb.rpc('username_available',{u:name});if(av.error){alert(av.error.message);return}if(!av.data){alert('That username is already taken or not allowed. Please choose another.');return}}
+const auth=async mode=>{const email=$('#aE').value.trim(),pw=$('#aP').value,name=$('#aN').value.trim();if(!email||!pw){alert('Enter your email and password.');return}
+if(mode==='up'){if(!/^(?=.*[A-Za-z])(?=.*\d)(?=.*[^A-Za-z0-9]).{8,}$/.test(pw)){alert('Password must be at least 8 characters and include a letter, a number and a special character (like ! @ # $ %).');return}if(!/^[A-Za-z0-9_]{3,20}$/.test(name)){alert('Pick a username of 3-20 letters, numbers or underscores (no spaces).');return}const av=await sb.rpc('username_available',{u:name});if(av.error){alert(av.error.message);return}if(!av.data){alert('That username is already taken or not allowed. Please choose another.');return}}
 const r=mode==='up'?await sb.auth.signUp({email,password:pw,options:{data:{name}}}):await sb.auth.signInWithPassword({email,password:pw});
 if(r.error){alert(/Database error/i.test(r.error.message)?'That username is not available. Please choose another.':r.error.message);return}
 $('#dA').close();if(mode==='up'&&!r.data.session)alert('Check your email to confirm your account, then sign in.')};
+$('#aX').onclick=()=>$('#dA').close();$('#aSh').onchange=e=>{$('#aP').type=e.target.checked?'text':'password'};document.querySelectorAll('dialog').forEach(d=>d.addEventListener('click',e=>{if(e.target!==d)return;const r=d.getBoundingClientRect();if(e.clientX<r.left||e.clientX>r.right||e.clientY<r.top||e.clientY>r.bottom)d.close()}));
 $('#aIn').onclick=()=>auth('in');$('#aUp').onclick=()=>auth('up');
 $('#me').onclick=async()=>{if(CFG){needUser();return}if(S.u)openProfile();else $('#dA').showModal()};
 $('#theme').onclick=()=>{const r=document.documentElement,d=r.dataset.theme?r.dataset.theme==='dark':matchMedia('(prefers-color-scheme:dark)').matches;r.dataset.theme=d?'light':'dark'};
