@@ -300,14 +300,17 @@ addEventListener('keydown',e=>{if(e.key==='Escape'&&!$('#auth').hidden)location.
 $('#afc').addEventListener('click',e=>{if(e.target.closest('[data-close]')){S.recovery=false;location.hash='';route();return}const b=e.target.closest('[data-show]');if(!b)return;const i=$('#'+b.dataset.show);i.type=i.type==='password'?'text':'password';b.textContent=i.type==='password'?'Show':'Hide'});
 $('#afc').addEventListener('input',e=>{if(e.target.id!=='sP')return;const v=e.target.value,t={len:v.length>=8,let:/[A-Za-z]/.test(v),num:/\d/.test(v),sym:/[^A-Za-z0-9]/.test(v)};document.querySelectorAll('#chk [data-r]').forEach(x=>{const ok=t[x.dataset.r];x.classList.toggle('ok',ok);x.textContent=(ok?'✓ ':'')+x.textContent.replace('✓ ','')})});
 $('#afc').addEventListener('submit',async e=>{e.preventDefault();aErr('');if(CFG){aErr('Add your Supabase keys first.');return}const m=e.target.dataset.m;aBusy(true);try{if(m==='login')await doLogin();else if(m==='signup')await doSignup();else if(m==='forgot')await doForgot();else await doReset()}catch(x){aErr('Something went wrong. Check your connection and try again.')}aBusy(false)});
+function withTO(p,ms){return Promise.race([p,new Promise((_,j)=>setTimeout(()=>j(new Error('timeout')),ms))])}
 async function doLogin(){const id=$('#lI').value.trim(),pw=$('#lP').value;if(!id||!pw){aErr('Enter your email or username, and your password.');return}
 let err=null;
 if(id.includes('@')){const r=await sb.auth.signInWithPassword({email:id,password:pw});err=r.error}
-else{const{data,error}=await sb.functions.invoke(LOGIN_FN,{body:{identifier:id,password:pw}});
-if(error)err={message:'Username login is not switched on yet. Please log in with your email for now.'};
-else if(data&&data.error)err={message:data.error};
-else if(data&&data.session){const r=await sb.auth.setSession(data.session);err=r.error}
-else err={message:'Could not log in. Please try again.'}}
+else{let res=null;try{res=await withTO(sb.functions.invoke(LOGIN_FN,{body:{identifier:id,password:pw}}),20000)}catch(e){err={message:'The login service did not respond. Please log in with your email for now.'}}
+if(!err){const{data,error}=res;
+if(error){let st='network';try{st=error.context&&error.context.status||'network'}catch(e){}console.error('login function error',st,error);err={message:'Username login is not available right now (code '+st+'). Please log in with your email for now.'}}
+else if(data&&data.error)err={message:data.error}
+else if(data&&data.email){try{const r=await withTO(sb.auth.signInWithPassword({email:data.email,password:pw}),20000);err=r.error}catch(e){err={message:'Login took too long. Please try again.'}}}
+else if(data&&data.session){try{const r=await withTO(sb.auth.setSession(data.session),20000);err=r.error}catch(e){err={message:'Login took too long. Please try again.'}}}
+else err={message:'Could not log in. Please try again.'}}}
 if(err){aErr(err.message==='Invalid login credentials'?'Wrong email/username or password.':err.message);return}
 location.hash=''}
 async function doForgot(){const email=$('#fE').value.trim();if(!/^\S+@\S+\.\S+$/.test(email)){aErr('Enter a valid email address.');return}
