@@ -6,6 +6,9 @@
 <title>Hobbyhive: small communities for your hobbies</title>
 <meta name="description" content="Hobbyhive: small communities for plants, books, tech, games and more.">
 <meta property="og:title" content="Hobbyhive">
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="theme-color" content="#14142B">
+<link rel="apple-touch-icon" href="icon-192.png">
 <meta property="og:description" content="Small communities for plants, books, tech, games and more.">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='14' fill='%2314142B'/><polygon points='0,-13.5 11.69,-6.75 11.69,6.75 0,13.5 -11.69,6.75 -11.69,-6.75' transform='translate(19,20.75)' fill='%23FFC21A'/><polygon points='0,-13.5 11.69,-6.75 11.69,6.75 0,13.5 -11.69,6.75 -11.69,-6.75' transform='translate(45,20.75)' fill='%232BA36B'/><polygon points='0,-13.5 11.69,-6.75 11.69,6.75 0,13.5 -11.69,6.75 -11.69,-6.75' transform='translate(32,43.25)' fill='%23E4559F'/></svg>">
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
@@ -91,6 +94,20 @@ html,body{max-width:100%;overflow-x:hidden}
 .btn.wide{width:100%;margin-top:16px;padding:13px;font-size:16px}.alt{margin-top:18px;text-align:center;font-size:14px;color:var(--mut)}.alt a{color:var(--acc);font-weight:700}
 @media(max-width:820px){.lh{padding:28px 20px}.lh .hx{display:none}#auth{grid-template-columns:1fr}.ap{padding:22px 20px}.ap h1{font-size:28px;margin-top:14px}.ap ul,.ap p{display:none}.af{padding:20px;place-items:start center}}
 @media(max-width:820px){.tiles{grid-template-columns:1fr 1fr;gap:10px}.tile{padding:12px}.tile span{display:none}.tile svg{width:26px;height:26px}}
+.fgt{display:block;text-align:right;font-size:13px;font-weight:600;color:var(--acc);margin-top:8px;text-decoration:none}
+.post.hl{animation:hl 2.5s ease-out}@keyframes hl{0%{box-shadow:0 0 0 4px var(--acc)}100%{box-shadow:0 0 0 0 transparent}}
+.send input{min-width:0}.send .btn{flex:none;white-space:nowrap}
+.lg{display:inline-grid;place-items:center;border-radius:28%;color:#fff;flex:none;box-shadow:0 2px 8px rgba(0,0,0,.18)}.lg svg{color:#fff!important;width:58%!important;height:58%!important}
+.hero .lg{background:rgba(255,255,255,.2)!important;box-shadow:none;border:2px solid rgba(255,255,255,.6)}.ci .em{display:grid}
+:root{--t1:hsl(var(--h,140) 90% 94%);--t2:hsl(calc(var(--h,140) + 50) 90% 95%)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--t1:hsl(var(--h,140) 40% 15%);--t2:hsl(calc(var(--h,140) + 50) 40% 13%)}}
+:root[data-theme="dark"]{--t1:hsl(var(--h,140) 40% 15%);--t2:hsl(calc(var(--h,140) + 50) 40% 13%)}
+body.in{background:radial-gradient(900px 520px at 6% -6%,var(--t1),transparent 70%),radial-gradient(800px 520px at 100% 0,var(--t2),transparent 65%),var(--bg);background-attachment:fixed}
+body.in::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;background-image:radial-gradient(hsl(var(--h,140) 45% 50%/.2) 1.2px,transparent 1.5px);background-size:26px 26px;-webkit-mask-image:linear-gradient(#000,transparent 65%);mask-image:linear-gradient(#000,transparent 65%)}
+body.in .card,body.in .post{background:color-mix(in srgb,var(--card) 93%,transparent);backdrop-filter:blur(6px)}
+.foot{text-align:center;color:var(--mut);font-size:13px;margin:36px 0 12px}.foot a{color:var(--mut);margin:0 6px}.info{font-size:14px;line-height:1.6}.info ol,.info ul{padding-left:20px}.info p{margin:10px 0}
+.un{color:inherit;text-decoration:none}.un:hover{text-decoration:underline}.men{color:var(--acc);font-weight:600;text-decoration:none}.hid{opacity:.6}
+#mn{position:fixed;z-index:60;background:var(--card);border:1px solid var(--line);border-radius:12px;box-shadow:0 8px 24px rgba(0,0,0,.22);padding:4px;width:240px}.mi{display:flex;align-items:center;gap:8px;padding:8px 10px;border-radius:8px;cursor:pointer;font-weight:600}.mi.on,.mi:hover{background:var(--soft)}.mi .av{width:26px;height:26px;font-size:12px;flex:none}
 </style>
 </head>
 <body>
@@ -111,6 +128,7 @@ html,body{max-width:100%;overflow-x:hidden}
   <div id="chips"></div>
   <div class="tools"><input id="q" type="search" name="post-search" autocomplete="off" placeholder="Search posts or #tags"><select id="sort"><option value="new">Newest</option><option value="top">Most liked</option></select></div>
   <div id="feed"></div>
+<div class="foot"><a href="#" data-info="rules">Community guidelines</a> · <a href="#" data-info="privacy">Privacy</a> · <a href="#" data-info="about">About</a></div>
 </main>
 </div>
 
@@ -124,9 +142,11 @@ html,body{max-width:100%;overflow-x:hidden}
 
 <dialog id="dM" style="width:min(640px,94vw)"><h2>🛡️ Moderation</h2><div class="row" style="margin-bottom:8px"><button class="chip on" id="tR">Reports</button><button class="chip" id="tU">Users</button><button class="chip" id="tS">Stats</button><button class="chip" id="mX">Close</button></div><div id="mBody"></div></dialog>
 <dialog id="lb" style="padding:0;background:transparent;width:auto;max-width:96vw"><img id="lbi" alt="" style="max-width:94vw;max-height:90vh;border-radius:14px;display:block"></dialog>
-<dialog id="dP" style="width:min(520px,94vw)"><div style="display:flex;gap:14px;align-items:center"><div id="pAv" class="av" style="width:64px;height:64px;font-size:26px"></div><div><b id="pNm" style="font-size:18px"></b><br><label class="up" style="margin:6px 0 0;padding:6px 12px;display:inline-block">Change photo<input id="pAf" type="file" accept="image/*" hidden></label></div></div><h3 style="margin:18px 0 4px">My posts</h3><div id="pList"></div><div class="row" style="margin-top:14px"><button id="pOut" class="btn plain">Sign out</button><button id="pX" class="btn">Close</button></div></dialog>
+<dialog id="dI" style="width:min(560px,94vw)"><h2 id="iT"></h2><div id="iB" class="info"></div><div class="row" style="margin-top:14px"><button class="btn" type="button" onclick="document.getElementById('dI').close()">Close</button></div></dialog>
+<dialog id="dP" style="width:min(520px,94vw)"><div style="display:flex;gap:14px;align-items:center"><div id="pAv" class="av" style="width:64px;height:64px;font-size:26px"></div><div><b id="pNm" style="font-size:18px"></b><br><label class="up" style="margin:6px 0 0;padding:6px 12px;display:inline-block">Change photo<input id="pAf" type="file" accept="image/*" hidden></label></div></div><h3 style="margin:18px 0 4px">My posts</h3><div id="pList"></div><div class="row" style="margin-top:14px"><button id="pOut" class="btn plain">Sign out</button><button id="pDel" class="btn plain" style="color:#D6333A">Delete account</button><button id="pX" class="btn">Close</button></div></dialog>
 <dialog id="dN" style="width:min(480px,94vw)"><h2>🔔 Notifications</h2><div id="nList"></div><div class="row" style="margin-top:12px"><button class="btn plain" onclick="document.getElementById('dN').close()">Close</button></div></dialog>
 <dialog id="dR" style="width:min(520px,94vw)"><h2>Community rules</h2><textarea id="rT" rows="8" maxlength="1000" placeholder="1. Be kind.&#10;2. Tag your posts.&#10;3. No spam."></textarea><div class="row" style="margin-top:12px"><button id="rS" class="btn">Save</button><button id="rC" class="btn plain" type="button">Cancel</button></div></dialog>
+<dialog id="dE" style="width:min(520px,94vw)"><h2 id="eH">Edit post</h2><input id="eT" maxlength="100" placeholder="Title"><textarea id="eB" rows="6" style="margin-top:10px"></textarea><input id="eG" style="margin-top:10px" placeholder="Tags, comma separated"><div class="row" style="margin-top:12px"><button id="eS" class="btn">Save</button><button id="eC" class="btn plain" type="button">Cancel</button></div></dialog>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
 <script>
 const RAW=`plants|🌱|Plant Parents|Care tips, ID help and plant swaps|140|Care tip,Help me ID,Plant swap,Show off|Plant name;Light:Low,Medium,Bright indirect,Direct sun
@@ -156,54 +176,64 @@ const uid=()=>Math.random().toString(36).slice(2,9);
 const ago=t=>{const s=(Date.now()-t)/1000;return s<60?'just now':s<3600?~~(s/60)+'m ago':s<86400?~~(s/3600)+'h ago':~~(s/86400)+'d ago'};
 const ICO={plants:['plant-2','leaf','flower'],books:['books','book','bookmark'],collabs:['palette','brush','users'],cooking:['chef-hat','pizza','flame'],fitness:['barbell','run','heartbeat'],techlearn:['code','terminal-2','shield-lock'],gaming:['device-gamepad-2','sword','trophy'],music:['music','headphones','microphone'],pets:['paw','bone','heart'],sidehustle:['briefcase','coin','bulb'],language:['language','messages','world'],photo:['camera','photo','aperture'],cars:['car','steering-wheel','engine'],bikes:['bike','motorbike','helmet'],space:['rocket','telescope','planet'],travel:['plane','compass','map-pin'],screen:['movie','device-tv','ticket'],diy:['tools','cpu','bulb'],football:['ball-football','trophy','run'],fashion:['hanger','shirt','scissors']};
 ICO.home=['home-2','sparkles','heart'];const HOME={id:'home',emoji:'',name:'Home',tag:'Latest posts from every community',hue:255,types:[],fields:[]};
-const SEL='*,profiles(name,avatar_url),likes(user_id),comments(id,parent_id,author_id,author_name,body,created_at)';
+const SEL='*,profiles(name,avatar_url),likes(user_id),comments(id,parent_id,author_id,author_name,body,created_at,edited_at)';
 const canRules=c=>!!S.u&&c.id!=='home'&&(isAdmin()||(!!c.by&&c.by===S.u.id));
-const cmOne=(m,sub)=>`<div class="cm${sub?' sub':''}"><b>${esc(m.author_name)}</b> <small>${ago(Date.parse(m.created_at))}</small>${(mine(m.author_id)||isStaff())?`<button class="x" data-a="delc" data-cid="${m.id}">✕</button>`:''}<div>${esc(m.body)}</div><button class="lnk" data-a="rp" data-cid="${m.parent_id||m.id}" data-n="${esc(m.author_name)}">Reply</button></div>`;
+const cmOne=(m,sub)=>`<div class="cm${sub?' sub':''}${m.hidden?' hid':''}"><b><a class="un" href="#user=${encodeURIComponent(m.author_name)}">${esc(m.author_name)}</a></b>${m.hidden?' <small style="color:#D6333A;font-weight:700">Hidden</small>':''} <small>${ago(Date.parse(m.created_at))}${m.edited_at?' (edited)':''}</small>${mine(m.author_id)?`<button class="x" style="margin-right:8px" data-a="edc" data-cid="${m.id}">Edit</button>`:''}${(mine(m.author_id)||isStaff())?`<button class="x" data-a="delc" data-cid="${m.id}">✕</button>`:''}<div>${mention(m.body)}</div><button class="lnk" data-a="rp" data-cid="${m.parent_id||m.id}" data-n="${esc(m.author_name)}">Reply</button>${S.u&&!mine(m.author_id)?`<button class="lnk" data-a="repc" data-cid="${m.id}">Report</button>`:''}${isStaff()?`<button class="lnk" data-a="hidec" data-cid="${m.id}">${m.hidden?'Unhide':'Hide'}</button>`:''}</div>`;
 const cmTree=cms=>cms.filter(m=>!m.parent_id).map(m=>cmOne(m,0)+cms.filter(r=>r.parent_id===m.id).map(r=>cmOne(r,1)).join('')).join('');
-function renderRules(){const c=cur(),B=$('#rules');if(c.id==='home'){B.innerHTML='';return}
+function renderRules(){const c=cur(),B=$('#rules');if(c.id==='home'||c.id==='user'){B.innerHTML='';return}
 if(S.rules){B.innerHTML=`<div class="card" style="margin-top:14px"><b>Community rules</b>${canRules(c)?'<button class="btn plain sm" id="re" style="float:right">Edit</button>':''}<div style="white-space:pre-wrap;margin-top:8px;font-size:14px">${esc(S.rules)}</div></div>`}
 else if(canRules(c)){B.innerHTML='<div style="margin-top:12px"><button class="btn plain sm" id="re">+ Add community rules</button></div>'}else B.innerHTML=''}
-async function loadRules(){if(CFG||S.cur==='home'){S.rules=null;renderRules();return}const id=S.cur;const{data}=await sb.from('community_rules').select('rules').eq('community',id).maybeSingle();if(id!==S.cur)return;S.rules=data?data.rules:null;renderRules()}
+async function loadRules(){if(CFG||S.cur==='home'||S.cur==='user'){S.rules=null;renderRules();return}const id=S.cur;const{data}=await sb.from('community_rules').select('rules').eq('community',id).maybeSingle();if(id!==S.cur)return;S.rules=data?data.rules:null;renderRules()}
 const ic=(n,st)=>`<svg class="ti" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="${st||''}"><use href="#i-${n}"/></svg>`;
 const SP=[[3,12,54,-15],[17,62,40,20],[31,8,34,10],[46,64,58,-20],[59,14,46,15],[71,58,36,-10],[83,6,60,25],[92,60,44,-18],[10,80,30,5],[54,38,26,-5]];
 const deco=c=>{const l=ICO[c.id]||['sparkles','star','heart'];return'<div class="deco" aria-hidden="true">'+SP.map((q,i)=>ic(l[i%3],`left:${q[0]}%;top:${q[1]}%;font-size:${q[2]}px;transform:rotate(${q[3]}deg)`)).join('')+'</div>'};
-function renderSide(){const q=ui.cq.toLowerCase();$('#clist').innerHTML=(q?all():[HOME,...all()]).filter(c=>(c.name+c.tag).toLowerCase().includes(q)).map(c=>`<button class="ci ${c.id===S.cur?'on':''}" data-c="${esc(c.id)}" style="--h:${c.hue}"><span class="em">${ICO[c.id]?ic(ICO[c.id][0],'color:hsl('+c.hue+' 65% 52%)'):esc(c.emoji)}</span><span class="nm">${esc(c.name)}</span></button>`).join('')}
-function renderHero(){const c=cur();document.documentElement.style.setProperty('--h',c.hue);$('#hero').innerHTML=`${deco(c)}<div class="big">${ICO[c.id]?ic(ICO[c.id][0]):esc(c.emoji)}</div><div><h1>${esc(c.name)}</h1><p>${esc(c.tag)}</p>${canEdit(c)?'<div style="margin-top:10px;display:flex;gap:8px"><button class="btn plain sm" id="ced">✏️ Edit</button><button class="btn plain sm" id="cdel">🗑️ Delete</button></div>':''}</div>`}
-function renderComp(){const c=cur();$('#comp').style.display=c.id==='home'?'none':'';if(c.id==='home')return;if(!ui.open){$('#comp').innerHTML=`<button class="btn" id="open" style="width:100%;text-align:left">✏️ Share something with ${esc(c.name)}…</button>`;return}
+function renderSide(){const q=ui.cq.toLowerCase();$('#clist').innerHTML=(q?all():[HOME,...sorted()]).filter(c=>(c.name+c.tag).toLowerCase().includes(q)).map(c=>`<button class="ci ${c.id===S.cur?'on':''}" data-c="${esc(c.id)}" style="--h:${c.hue}"><span class="em">${logo(c,32)}</span><span class="nm">${esc(c.name)}</span></button>`).join('')}
+function renderHero(){const c=cur();document.documentElement.style.setProperty('--h',c.hue);if(c.id==='user'){$('#hero').innerHTML=profHero(ui.pf||{});return}$('#hero').innerHTML=`${deco(c)}<div class="big">${logo(c,72)}</div><div><h1>${esc(c.name)}</h1><p>${esc(c.tag)}</p>${c.id!=='home'?`<p style="font-size:13px;opacity:.92;margin-top:6px">${memberLine(c)}</p><button class="btn plain sm" id="jn" style="margin-top:8px">${S.joined.has(c.id)?'✓ Joined':'+ Join'}</button>`:''}${canEdit(c)?'<div style="margin-top:10px;display:flex;gap:8px"><button class="btn plain sm" id="ced">✏️ Edit</button><button class="btn plain sm" id="cdel">🗑️ Delete</button></div>':''}</div>`}
+function renderComp(){const c=cur();const pv=c.id==='home'||c.id==='user';$('#comp').style.display=pv?'none':'';if(pv)return;if(!ui.open){$('#comp').innerHTML=`<button class="btn" id="open" style="width:100%;text-align:left">✏️ Share something with ${esc(c.name)}…</button>`;return}
 $('#comp').innerHTML=`<div class="row"><select id="pt">${c.types.map(t=>`<option>${esc(t)}</option>`).join('')}</select><input id="pT" maxlength="100" placeholder="Title"></div><textarea id="pB" rows="4" style="margin-top:10px" placeholder="What's on your mind?"></textarea><div class="row" style="margin-top:10px">${c.fields.map((f,i)=>f.opts?`<select id="f${i}"><option value="">${esc(f.label)}…</option>${f.opts.map(o=>`<option>${esc(o)}</option>`).join('')}</select>`:`<input id="f${i}" placeholder="${esc(f.label)}">`).join('')}</div><input id="pG" style="margin-top:10px" placeholder="Tags, comma separated"><label class="up">📎 Add photos or videos (up to 4 · videos max 25MB)<input id="pF" type="file" accept="image/*,video/*" multiple></label><div id="pv" class="media"></div><div class="row" style="margin-top:12px"><button class="btn" id="post">Post</button><button class="btn plain" id="cancel">Cancel</button></div>`}
-function renderChips(){if(S.cur==='home'){$('#chips').innerHTML='';return}$('#chips').innerHTML=['All',...cur().types].map(t=>`<button class="chip ${t===ui.type?'on':''}" data-t="${esc(t)}">${esc(t)}</button>`).join('')}
+function renderChips(){if(S.cur==='user'){$('#chips').innerHTML='';return}if(S.cur==='home'){$('#chips').innerHTML=S.u?[['0','Everything'],['1','My communities']].map(([v,l])=>`<button class="chip ${(ui.hm?'1':'0')===v?'on':''}" data-hm="${v}">${l}</button>`).join(''):'';return}$('#chips').innerHTML=['All',...cur().types].map(t=>`<button class="chip ${t===ui.type?'on':''}" data-t="${esc(t)}">${esc(t)}</button>`).join('')}
 const SUPABASE_URL='https://mqwacsqxvdpctwicohoz.supabase.co',SUPABASE_KEY='sb_publishable_l1s0rJ2A1jQkM6RitOTtpw_ZzBtXXo1';
+const REC=/type=recovery/.test(location.hash),HERR=(location.hash.match(/error_description=([^&]+)/)||[])[1],POST0=(location.hash.match(/^#post=([0-9a-f-]{36})$/)||[])[1];
+const UMAMI_ID='';if(UMAMI_ID){const u=document.createElement('script');u.defer=true;u.src='https://cloud.umami.is/script.js';u.dataset.websiteId=UMAMI_ID;document.head.appendChild(u)}
 const CFG=SUPABASE_URL.startsWith('PASTE');
 const sb=CFG?null:supabase.createClient(SUPABASE_URL,SUPABASE_KEY,{auth:{lock:async(n,t,fn)=>await fn()}});
-let S={u:null,cur:'home',rules:null,custom:[],posts:[]};
+let S={u:null,cur:'home',rules:null,custom:[],posts:[],joined:new Set(),counts:{},ready:false,more:false};
 const ui={cq:'',q:'',type:'All',sort:'new',open:false,cm:{}};
 const all=()=>base.concat(S.custom);
-const cur=()=>S.cur==='home'?HOME:(all().find(c=>c.id===S.cur)||all()[0]);
+const cur=()=>S.cur==='user'?USERV:S.cur==='home'?HOME:(all().find(c=>c.id===S.cur)||all()[0]);
 const nm=()=>S.u?(S.pn||(S.u.user_metadata&&S.u.user_metadata.name)||S.u.email.split('@')[0]):'';
 const mine=id=>!!S.u&&S.u.id===id;
 async function loadC(){const{data}=await sb.from('communities').select('*').order('created_at');S.custom=(data||[]).map(c=>({id:c.id,emoji:c.emoji,name:c.name,tag:c.tag,hue:c.hue,types:c.types,fields:c.fields,by:c.created_by}))}
-async function loadP(){if(CFG)return;const id=S.cur;const{data,error}=await (id==='home'?sb.from('posts').select(SEL):sb.from('posts').select(SEL).eq('community',id).order('pinned',{ascending:false})).order('created_at',{ascending:false}).limit(100);if(error){alert(error.message);return}if(id!==S.cur)return;S.posts=data;renderSide();renderFeed()}
+async function loadP(){if(CFG)return;const id=S.cur;
+if(id==='home'&&ui.hm&&S.u&&!S.joined.size){S.posts=[];S.more=false;renderSide();renderFeed();return}
+let q=sb.from('posts').select(SEL);
+if(id==='user'){q=q.eq('author_id',ui.pf.id)}else if(id==='home'){if(ui.hm&&S.u)q=q.in('community',[...S.joined])}else q=q.eq('community',id).order('pinned',{ascending:false});
+const{data,error}=await q.order('created_at',{ascending:false}).limit(ui.lim||30);
+if(error){alert(error.message);return}if(id!==S.cur)return;
+if(ui.focus&&!data.some(x=>x.id===ui.focus.id)&&(id==='home'||ui.focus.community===id))data.unshift(ui.focus);
+S.posts=data;S.more=data.length>=(ui.lim||30);renderSide();renderFeed();
+if(ui.focus){const el=document.querySelector('.post[data-id="'+ui.focus.id+'"]');if(el){el.classList.add('hl');el.scrollIntoView({block:'center'})}ui.focus=null}}
 function renderFeed(){const c=cur(),q=ui.q.toLowerCase().replace(/^#/,'');
 let ps=S.posts.filter(p=>(ui.type==='All'||p.type===ui.type)&&(!q||(p.title+p.body+(p.tags||[]).join(' ')).toLowerCase().includes(q)));
 if(ui.sort==='top')ps=[...ps].sort((a,b)=>(b.pinned-a.pinned)||b.likes.length-a.likes.length);
 $('#feed').innerHTML=ps.length?ps.map(p=>{const pc=all().find(x=>x.id===p.community)||c,ex=pc.fields.map(f=>p.extra&&p.extra[f.label]?`<span class="pill">${esc(f.label)}: ${esc(p.extra[f.label])}</span>`:'').join('');const liked=!!S.u&&p.likes.some(l=>l.user_id===S.u.id);
 const med=(p.media||[]).filter(m=>/^https:\/\//.test(m.url)).map(m=>m.kind==='video'?`<video controls preload="metadata" src="${esc(m.url)}"></video>`:`<img loading="lazy" alt="" src="${esc(m.url)}">`).join('');
 const cms=p.comments.slice().sort((a,b)=>a.created_at<b.created_at?-1:1);
-return`<article class="post" data-id="${p.id}"><div class="ph"><div class="av">${avh(p.profiles&&p.profiles.avatar_url,p.author_name)}</div><div><b>${esc((p.profiles&&p.profiles.name)||p.author_name)}</b><small>${ago(Date.parse(p.created_at))} · <span class="pill">${esc(p.type||'')}</span>${S.cur==='home'?` · <a href="#" class="gc" data-gc="${esc(p.community)}">${esc(pc.name)}</a>`:''}</small></div></div><h3>${p.pinned?'📌 ':''}${esc(p.title)}</h3>${ex?`<div class="meta">${ex}</div>`:''}<p>${esc(p.body)}</p>${med?`<div class="media">${med}</div>`:''}${(p.tags||[]).length?`<div class="tags">${p.tags.map(t=>'#'+esc(t)).join(' ')}</div>`:''}<div class="act"><button data-a="like" class="${liked?'liked':''}">${liked?'💚':'🤍'} ${p.likes.length}</button><button data-a="cm">💬 ${cms.length}</button>${(mine(p.author_id)||isStaff())?'<button data-a="del">🗑️ Delete</button>':''}${isStaff()?`<button data-a="pin">${p.pinned?'Unpin':'📌 Pin'}</button>`:''}${S.u&&!mine(p.author_id)?'<button data-a="rep">🚩 Report</button>':''}</div>${ui.cm[p.id]?`<div class="cms">${cmTree(cms)}${ui.rp&&ui.rp.post===p.id?`<small>Replying to ${esc(ui.rp.name)} <a href="#" data-a="rpx">cancel</a></small>`:''}<div class="send"><input class="ci2" maxlength="300" placeholder="Write a comment…" value="${ui.rp&&ui.rp.post===p.id?esc('@'+ui.rp.name+' '):''}"><button class="btn sm" data-a="send">${ui.rp&&ui.rp.post===p.id?'Reply':'Comment'}</button></div></div>`:''}</article>`}).join(''):`<div class="empty">${ICO[c.id]?ic(ICO[c.id][0],'font-size:56px;display:block;margin:0 auto 8px;color:var(--acc)'):''}Nothing here yet. Be the first to post!</div>`}
+return`<article class="post${p.hidden?' hid':''}" data-id="${p.id}"><div class="ph"><div class="av">${avh(p.profiles&&p.profiles.avatar_url,p.author_name)}</div><div><b><a class="un" href="#user=${encodeURIComponent((p.profiles&&p.profiles.name)||p.author_name)}">${esc((p.profiles&&p.profiles.name)||p.author_name)}</a></b><small>${ago(Date.parse(p.created_at))}${p.edited_at?' (edited)':''} · <span class="pill">${esc(p.type||'')}</span>${p.hidden?' <span class="pill" style="background:#FDE8E8;color:#B42318">Hidden</span>':''}${(S.cur==='home'||S.cur==='user')?` · <a href="#" class="gc" data-gc="${esc(p.community)}">${esc(pc.name)}</a>`:''}</small></div></div><h3>${p.pinned?'📌 ':''}${esc(p.title)}</h3>${ex?`<div class="meta">${ex}</div>`:''}<p>${mention(p.body)}</p>${med?`<div class="media">${med}</div>`:''}${(p.tags||[]).length?`<div class="tags">${p.tags.map(t=>'#'+esc(t)).join(' ')}</div>`:''}<div class="act"><button data-a="like" class="${liked?'liked':''}">${liked?'💚':'🤍'} ${p.likes.length}</button><button data-a="cm">💬 ${cms.length}</button><button data-a="share">🔗 Share</button>${mine(p.author_id)?'<button data-a="edit">✏️ Edit</button>':''}${(mine(p.author_id)||isStaff())?'<button data-a="del">🗑️ Delete</button>':''}${isStaff()?`<button data-a="pin">${p.pinned?'Unpin':'📌 Pin'}</button><button data-a="hide">${p.hidden?'Unhide':'Hide'}</button>`:''}${S.u&&!mine(p.author_id)?'<button data-a="rep">🚩 Report</button>':''}</div>${ui.cm[p.id]?`<div class="cms">${cmTree(cms)}${ui.rp&&ui.rp.post===p.id?`<small>Replying to ${esc(ui.rp.name)} <a href="#" data-a="rpx">cancel</a></small>`:''}<div class="send"><input class="ci2" maxlength="300" placeholder="Write a comment…" value="${ui.rp&&ui.rp.post===p.id?esc('@'+ui.rp.name+' '):''}"><button class="btn sm" data-a="send">${ui.rp&&ui.rp.post===p.id?'Reply':'Comment'}</button></div></div>`:''}</article>`}).join('')+(S.more?'<button class="btn plain" id="more" style="width:100%;margin-top:14px">Load more</button>':''):`<div class="empty">${ICO[c.id]?ic(ICO[c.id][0],'font-size:56px;display:block;margin:0 auto 8px;color:var(--acc)'):''}${S.cur==='home'&&ui.hm&&S.u&&!S.joined.size?'Join a few communities to fill your Home feed.':'Nothing here yet. Be the first to post!'}</div>`}
 const isStaff=()=>S.role==='admin'||S.role==='mod',isAdmin=()=>S.role==='admin';
 const avh=(u,n)=>u&&/^https:\/\//.test(u)?`<img alt="" src="${esc(u)}">`:esc(n[0].toUpperCase());
 const canEdit=c=>!!S.u&&!!c.by&&(c.by===S.u.id||isAdmin());
 async function loadMe(){S.role='user';S.banned=false;S.pn=null;S.av=null;if(S.u){const{data}=await sb.from('profiles').select('role,banned,avatar_url,name').eq('id',S.u.id).maybeSingle();if(data){S.role=data.role;S.banned=data.banned;S.av=data.avatar_url;S.pn=data.name}}}
-function renderAll(){renderSide();renderHero();renderLanding();renderRules();renderComp();renderChips();renderFeed();$('#me').textContent=S.u?'👤 '+nm():'Log in';$('#su').hidden=!!S.u;$('#adm').hidden=!isStaff();loadN()}
+function renderAll(){renderSide();renderHero();renderLanding();renderRules();renderComp();renderChips();renderFeed();$('#me').textContent=S.u?'👤 '+nm():'Log in';$('#su').hidden=!!S.u;document.body.classList.toggle('in',!!S.u);$('#adm').hidden=!isStaff();loadN()}
 function needUser(){if(CFG){alert('Add your Supabase URL and anon key at the top of the script first.');return true}if(S.u){if(S.banned){alert('Your account has been restricted by a moderator.');return true}return false}location.hash='login';return true}
-function setCur(id){S.cur=id;ui.type='All';ui.open=false;S.posts=[];S.rules=null;renderAll();loadP();loadRules()}
+function setCur(id){S.cur=id;ui.type='All';ui.lim=30;ui.open=false;S.posts=[];S.rules=null;renderAll();loadP();loadRules()}
 const resetBtn=b=>{b.disabled=false;b.textContent='Post'};
 
 $('#clist').onclick=e=>{const b=e.target.closest('[data-c]');if(b)setCur(b.dataset.c)};
 $('#cq').oninput=e=>{ui.cq=e.target.value;renderSide()};
 $('#q').oninput=e=>{ui.q=e.target.value;renderFeed()};
 $('#sort').onchange=e=>{ui.sort=e.target.value;renderFeed()};
-$('#chips').onclick=e=>{const b=e.target.closest('[data-t]');if(b){ui.type=b.dataset.t;renderChips();renderFeed()}};
+$('#chips').onclick=e=>{const h=e.target.closest('[data-hm]');if(h){ui.hm=h.dataset.hm==='1';renderChips();loadP();return}const b=e.target.closest('[data-t]');if(b){ui.type=b.dataset.t;renderChips();renderFeed()}};
 $('#comp').onclick=async e=>{const id=e.target.id;
 if(id==='open'){if(!needUser()){ui.open=true;renderComp()}}
 else if(id==='cancel'){ui.open=false;renderComp()}
@@ -224,12 +254,18 @@ $('#feed').onclick=async e=>{const g=e.target.closest('[data-gc]');if(g){e.preve
 if(a==='cm'){ui.cm[p.id]=!ui.cm[p.id];renderFeed();return}
 if(a==='rpx'){e.preventDefault();ui.rp=null;renderFeed();return}
 if(a==='rp'){if(needUser())return;ui.rp={post:p.id,cid:b.dataset.cid,name:b.dataset.n};ui.cm[p.id]=true;renderFeed();const i=document.querySelector('.post[data-id="'+p.id+'"] .ci2');if(i){i.focus();i.setSelectionRange(i.value.length,i.value.length)}return}
+if(a==='share'){const url=location.origin+location.pathname+'#post='+p.id;if(navigator.share){navigator.share({title:p.title,url}).catch(()=>{})}else if(navigator.clipboard){navigator.clipboard.writeText(url).then(()=>alert('Link copied!'),()=>prompt('Copy this link',url))}else prompt('Copy this link',url);return}
+if(a==='edit'){ui.ed={k:'p',id:p.id};$('#eH').textContent='Edit post';$('#eT').hidden=false;$('#eG').hidden=false;$('#eT').value=p.title;$('#eB').value=p.body;$('#eG').value=(p.tags||[]).join(', ');$('#dE').showModal();return}
+if(a==='edc'){const cm=p.comments.find(x=>x.id===b.dataset.cid);if(!cm)return;ui.ed={k:'c',id:cm.id};$('#eH').textContent='Edit comment';$('#eT').hidden=true;$('#eG').hidden=true;$('#eB').value=cm.body;$('#dE').showModal();return}
 if(needUser())return;let r;
 if(a==='like'){const l=p.likes.some(x=>x.user_id===S.u.id);r=l?await sb.from('likes').delete().match({post_id:p.id,user_id:S.u.id}):await sb.from('likes').insert({post_id:p.id,user_id:S.u.id})}
 else if(a==='del'){if(!confirm('Delete this post?'))return;r=await sb.from('posts').delete().eq('id',p.id)}
 else if(a==='pin'){r=await sb.from('posts').update({pinned:!p.pinned}).eq('id',p.id)}
 else if(a==='delc'){if(!confirm('Delete this comment?'))return;r=await sb.from('comments').delete().eq('id',b.dataset.cid)}
 else if(a==='rep'){const why=prompt('Why are you reporting this post?');if(!why)return;r=await sb.from('reports').insert({post_id:p.id,reason:why.slice(0,300)});if(r.error&&r.error.code==='23505'){alert('You already reported this post.');return}if(!r.error)alert('Thanks, a moderator will review it.')}
+else if(a==='hide'){r=await sb.from('posts').update({hidden:!p.hidden}).eq('id',p.id)}
+else if(a==='hidec'){const cm=p.comments.find(x=>x.id===b.dataset.cid);r=await sb.from('comments').update({hidden:!(cm&&cm.hidden)}).eq('id',b.dataset.cid)}
+else if(a==='repc'){const why=prompt('Why are you reporting this comment?');if(!why)return;r=await sb.from('reports').insert({post_id:p.id,comment_id:b.dataset.cid,reason:why.slice(0,300)});if(r.error&&r.error.code==='23505'){alert('You already reported this comment.');return}if(!r.error)alert('Thanks, a moderator will review it.')}
 else if(a==='send'){const v=art.querySelector('.ci2').value.trim();if(!v)return;r=await sb.from('comments').insert({post_id:p.id,author_id:S.u.id,author_name:nm(),body:v,parent_id:(ui.rp&&ui.rp.post===p.id?ui.rp.cid:null)});ui.rp=null}
 if(r&&r.error)alert(r.error.message);await loadP()};
 $('#feed').onkeydown=e=>{if(e.key==='Enter'&&e.target.classList.contains('ci2'))e.target.closest('.post').querySelector('[data-a="send"]').click()};
@@ -238,23 +274,31 @@ const hxs=cls=>`<svg class="${cls}" viewBox="0 0 64 64" aria-hidden="true">${HX}
 function authForm(m){
 if(m==='login')return `<h2>Welcome back</h2><p class="sub">Log in to post, comment and join the conversation.</p><form id="aForm" data-m="login" novalidate>
 <div class="fld"><label for="lI">Email or username</label><input id="lI" autocomplete="username" autocapitalize="none" spellcheck="false" placeholder="you@example.com or your_username"></div>
-<div class="fld"><label for="lP">Password</label><div class="pw"><input id="lP" type="password" autocomplete="current-password"><button type="button" data-show="lP">Show</button></div></div>
-<div id="aErr" class="aerr" hidden></div><button class="btn wide" id="aGo">Log in</button></form><div class="alt">New to Hobbyhive? <a href="#signup">Create an account</a></div>`;
+<div class="fld"><label for="lP">Password</label><div class="pw"><input id="lP" type="password" autocomplete="current-password"><button type="button" data-show="lP">Show</button></div><a href="#forgot" class="fgt">Forgot password?</a></div>
+<div id="aErr" class="aerr" hidden></div><button class="btn wide" id="aGo" data-l="Log in">Log in</button></form><div class="alt">New to Hobbyhive? <a href="#signup">Create an account</a></div>`;
+if(m==='forgot')return `<h2>Reset your password</h2><p class="sub">Enter the email you signed up with and we will send you a reset link.</p><form id="aForm" data-m="forgot" novalidate>
+<div class="fld"><label for="fE">Email</label><input id="fE" type="email" autocomplete="email" placeholder="you@example.com"></div>
+<div id="aErr" class="aerr" hidden></div><button class="btn wide" id="aGo" data-l="Send reset link">Send reset link</button></form><div class="alt"><a href="#login">Back to log in</a></div>`;
+if(m==='reset')return `<h2>Choose a new password</h2><p class="sub">Pick something strong that you have not used elsewhere.</p><form id="aForm" data-m="reset" novalidate>
+<div class="fld"><label for="sP">New password</label><div class="pw"><input id="sP" type="password" autocomplete="new-password"><button type="button" data-show="sP">Show</button></div>
+<div class="chk" id="chk"><span data-r="len">8+ characters</span><span data-r="let">A letter</span><span data-r="num">A number</span><span data-r="sym">A special character</span></div></div>
+<div class="fld"><label for="sP2">Confirm password</label><input id="sP2" type="password" autocomplete="new-password"></div>
+<div id="aErr" class="aerr" hidden></div><button class="btn wide" id="aGo" data-l="Save new password">Save new password</button></form>`;
 return `<h2>Join Hobbyhive</h2><p class="sub">Free, friendly and takes a minute.</p><form id="aForm" data-m="signup" novalidate>
 <div class="fld"><label for="sU">Username</label><input id="sU" maxlength="20" autocomplete="username" autocapitalize="none" spellcheck="false" placeholder="e.g. Ghost_01"><small class="hint">3-20 letters, numbers or _. It is public and cannot be changed later.</small></div>
 <div class="fld"><label for="sE">Email</label><input id="sE" type="email" autocomplete="email" placeholder="you@example.com"></div>
 <div class="fld"><label for="sP">Password</label><div class="pw"><input id="sP" type="password" autocomplete="new-password"><button type="button" data-show="sP">Show</button></div>
 <div class="chk" id="chk"><span data-r="len">8+ characters</span><span data-r="let">A letter</span><span data-r="num">A number</span><span data-r="sym">A special character</span></div></div>
-<div id="aErr" class="aerr" hidden></div><button class="btn wide" id="aGo">Create account</button></form><div class="alt">Already have an account? <a href="#login">Log in</a></div>`}
+<div id="aErr" class="aerr" hidden></div><button class="btn wide" id="aGo" data-l="Create account">Create account</button></form><div class="alt">Already have an account? <a href="#login">Log in</a></div>`}
 const aErr=t=>{const e=$('#aErr');if(e){e.textContent=t;e.hidden=!t}};
-const aBusy=b=>{const g=$('#aGo'),f=$('#aForm');if(g&&f){g.disabled=b;g.textContent=b?'Please wait…':(f.dataset.m==='login'?'Log in':'Create account')}};
-function showAuth(m){$('#auth').hidden=false;document.body.style.overflow='hidden';$('#afc').innerHTML=authForm(m);const f=$(m==='login'?'#lI':'#sU');if(f&&!matchMedia('(max-width:820px)').matches)f.focus()}
-function route(){const h=location.hash.slice(1);if(h==='login'||h==='signup')showAuth(h);else{$('#auth').hidden=true;document.body.style.overflow=''}}
-addEventListener('hashchange',route);
+const aBusy=b=>{const g=$('#aGo'),f=$('#aForm');if(g&&f){g.disabled=b;g.textContent=b?'Please wait…':g.dataset.l}};
+function showAuth(m){$('#auth').hidden=false;document.body.style.overflow='hidden';$('#afc').innerHTML=authForm(m);if(S.flash){aErr(S.flash);S.flash=''}const f=$(m==='login'?'#lI':m==='forgot'?'#fE':m==='reset'?'#sP':'#sU');if(f&&!matchMedia('(max-width:820px)').matches)f.focus()}
+function route(){const h=location.hash.slice(1);if(h.startsWith('user=')){const n=decodeURIComponent(h.slice(5));if(S.ready&&/^[A-Za-z0-9_ ]{1,30}$/.test(n)){history.replaceState(null,'',location.pathname+location.search);openUser(n)}return}if(h.startsWith('post=')){const id=h.slice(5);if(S.ready&&/^[0-9a-f-]{36}$/.test(id)){history.replaceState(null,'',location.pathname+location.search);openPost(id)}return}if(S.recovery){if($('#auth').hidden||!$('#sP2')&&!$('#afc [data-close]'))showAuth('reset');return}if(h==='login'||h==='signup'||h==='forgot')showAuth(h);else{$('#auth').hidden=true;document.body.style.overflow=''}}
+addEventListener('hashchange',route);document.querySelector('.aback').addEventListener('click',()=>{S.recovery=false});
 addEventListener('keydown',e=>{if(e.key==='Escape'&&!$('#auth').hidden)location.hash=''});
-$('#afc').addEventListener('click',e=>{const b=e.target.closest('[data-show]');if(!b)return;const i=$('#'+b.dataset.show);i.type=i.type==='password'?'text':'password';b.textContent=i.type==='password'?'Show':'Hide'});
+$('#afc').addEventListener('click',e=>{if(e.target.closest('[data-close]')){S.recovery=false;location.hash='';route();return}const b=e.target.closest('[data-show]');if(!b)return;const i=$('#'+b.dataset.show);i.type=i.type==='password'?'text':'password';b.textContent=i.type==='password'?'Show':'Hide'});
 $('#afc').addEventListener('input',e=>{if(e.target.id!=='sP')return;const v=e.target.value,t={len:v.length>=8,let:/[A-Za-z]/.test(v),num:/\d/.test(v),sym:/[^A-Za-z0-9]/.test(v)};document.querySelectorAll('#chk [data-r]').forEach(x=>{const ok=t[x.dataset.r];x.classList.toggle('ok',ok);x.textContent=(ok?'✓ ':'')+x.textContent.replace('✓ ','')})});
-$('#afc').addEventListener('submit',async e=>{e.preventDefault();aErr('');if(CFG){aErr('Add your Supabase keys first.');return}const m=e.target.dataset.m;aBusy(true);try{if(m==='login')await doLogin();else await doSignup()}catch(x){aErr('Something went wrong. Check your connection and try again.')}aBusy(false)});
+$('#afc').addEventListener('submit',async e=>{e.preventDefault();aErr('');if(CFG){aErr('Add your Supabase keys first.');return}const m=e.target.dataset.m;aBusy(true);try{if(m==='login')await doLogin();else if(m==='signup')await doSignup();else if(m==='forgot')await doForgot();else await doReset()}catch(x){aErr('Something went wrong. Check your connection and try again.')}aBusy(false)});
 async function doLogin(){const id=$('#lI').value.trim(),pw=$('#lP').value;if(!id||!pw){aErr('Enter your email or username, and your password.');return}
 let err=null;
 if(id.includes('@')){const r=await sb.auth.signInWithPassword({email:id,password:pw});err=r.error}
@@ -265,6 +309,15 @@ else if(data&&data.session){const r=await sb.auth.setSession(data.session);err=r
 else err={message:'Could not log in. Please try again.'}}
 if(err){aErr(err.message==='Invalid login credentials'?'Wrong email/username or password.':err.message);return}
 location.hash=''}
+async function doForgot(){const email=$('#fE').value.trim();if(!/^\S+@\S+\.\S+$/.test(email)){aErr('Enter a valid email address.');return}
+const r=await sb.auth.resetPasswordForEmail(email,{redirectTo:location.origin+location.pathname});
+if(r.error){aErr(/rate limit/i.test(r.error.message)?'Too many emails have been sent just now. Please wait a few minutes and try again.':r.error.message);return}
+$('#afc').innerHTML='<h2>Check your email</h2><p class="sub">If an account exists for <b>'+esc(email)+'</b>, we have sent a link to reset the password. It may take a minute, so check your spam folder too.</p><div class="alt"><a href="#login">Back to log in</a></div>'}
+async function doReset(){const pw=$('#sP').value,pw2=$('#sP2').value;
+if(!/^(?=.*[A-Za-z])(?=.*\d)(?=.*[^A-Za-z0-9]).{8,}$/.test(pw)){aErr('Password must be at least 8 characters with a letter, a number and a special character (like ! @ # $ %).');return}
+if(pw!==pw2){aErr('The two passwords do not match.');return}
+const r=await sb.auth.updateUser({password:pw});if(r.error){aErr(r.error.message);return}
+S.recovery=false;$('#afc').innerHTML='<h2>Password updated</h2><p class="sub">Your new password is saved and you are logged in.</p><button class="btn wide" data-close="1">Continue to Hobbyhive</button>'}
 async function doSignup(){const name=$('#sU').value.trim(),email=$('#sE').value.trim(),pw=$('#sP').value;
 if(!/^[A-Za-z0-9_]{3,20}$/.test(name)){aErr('Pick a username of 3-20 letters, numbers or underscores (no spaces).');return}
 if(!/^\S+@\S+\.\S+$/.test(email)){aErr('Enter a valid email address.');return}
@@ -275,13 +328,14 @@ if(r.error){aErr(/Database error/i.test(r.error.message)?'That username is not a
 if(!r.data.session){$('#afc').innerHTML='<h2>Check your email</h2><p class="sub">We sent a confirmation link to <b>'+esc(email)+'</b>. Click it, then come back and log in.</p><div class="alt"><a href="#login">Go to log in</a></div>';return}
 location.hash=''}
 function renderLanding(){const L=$('#landing'),on=S.cur==='home'&&!S.u;L.hidden=!on;$('#hero').hidden=on;if(!on){L.innerHTML='';return}
-L.innerHTML=`<section class="lh">${hxs('hx')}<span class="lbadge">Free to join · No ads</span><h1>Find your <em>people</em>.</h1><p>Hobbyhive is a home for small communities: plants, books, tech, games, music and more. Ask, share and swap with people who love the same things.</p><div class="lcta"><a class="btn big" href="#signup">Join free</a><a class="btn ghostw" href="#login">Log in</a></div></section><h2 class="lt">Pick a community</h2><div class="tiles">${all().map(c=>`<a href="#" class="tile" data-gc="${esc(c.id)}" style="--h:${c.hue}">${ICO[c.id]?ic(ICO[c.id][0]):esc(c.emoji)}<b>${esc(c.name)}</b><span>${esc(c.tag)}</span></a>`).join('')}</div><h2 class="lt">How it works</h2><div class="steps"><div class="card">${ic('users')}<b>Pick your hives</b><p>Join the communities that match your hobbies, or start your own.</p></div><div class="card">${ic('camera')}<b>Share what you do</b><p>Post questions, tips, photos and videos with tags that keep things tidy.</p></div><div class="card">${ic('messages')}<b>Talk with people</b><p>Comment, reply and swap advice with people who get it.</p></div></div><h2 class="lt">Fresh posts</h2>`}
+L.innerHTML=`<section class="lh">${hxs('hx')}<span class="lbadge">Free to join · No ads</span><h1>Find your <em>people</em>.</h1><p>Hobbyhive is a home for small communities: plants, books, tech, games, music and more. Ask, share and swap with people who love the same things.</p><div class="lcta"><a class="btn big" href="#signup">Join free</a><a class="btn ghostw" href="#login">Log in</a></div></section><h2 class="lt">Pick a community</h2><div class="tiles">${all().map(c=>`<a href="#" class="tile" data-gc="${esc(c.id)}" style="--h:${c.hue}">${logo(c,46)}<b>${esc(c.name)}</b><span>${esc(c.tag)}</span></a>`).join('')}</div><h2 class="lt">How it works</h2><div class="steps"><div class="card">${ic('users')}<b>Pick your hives</b><p>Join the communities that match your hobbies, or start your own.</p></div><div class="card">${ic('camera')}<b>Share what you do</b><p>Post questions, tips, photos and videos with tags that keep things tidy.</p></div><div class="card">${ic('messages')}<b>Talk with people</b><p>Comment, reply and swap advice with people who get it.</p></div></div><h2 class="lt">Fresh posts</h2>`}
 $('#landing').addEventListener('click',e=>{const g=e.target.closest('[data-gc]');if(g){e.preventDefault();setCur(g.dataset.gc)}});
 document.querySelectorAll('dialog').forEach(d=>d.addEventListener('click',e=>{if(e.target!==d)return;const r=d.getBoundingClientRect();if(e.clientX<r.left||e.clientX>r.right||e.clientY<r.top||e.clientY>r.bottom)d.close()}));
 route();
 $('#me').onclick=async()=>{if(CFG){needUser();return}if(S.u)openProfile();else location.hash='login'};
 $('#su').onclick=()=>{location.hash='signup'};
-$('#theme').onclick=()=>{const r=document.documentElement,d=r.dataset.theme?r.dataset.theme==='dark':matchMedia('(prefers-color-scheme:dark)').matches;r.dataset.theme=d?'light':'dark'};
+try{const t=localStorage.getItem('hh-theme');if(t)document.documentElement.dataset.theme=t}catch(e){}
+$('#theme').onclick=()=>{const r=document.documentElement,d=r.dataset.theme?r.dataset.theme==='dark':matchMedia('(prefers-color-scheme:dark)').matches;r.dataset.theme=d?'light':'dark';try{localStorage.setItem('hh-theme',r.dataset.theme)}catch(e){}};
 $('#newc').onclick=()=>{if(!needUser()){dcMode(null);$('#dC').showModal()}};
 $('#cNo').onclick=()=>$('#dC').close();
 $('#cOk').onclick=async()=>{const n=$('#cN').value.trim();if(!n){alert('Give it a name.');return}
@@ -293,9 +347,9 @@ $('#dC').close();['cN','cT','cF1','cF2'].forEach(i=>$('#'+i).value='');await loa
 let mtab='R';
 async function panel(){const B=$('#mBody');B.innerHTML='<div class="empty">Loading…</div>';
 $('#tR').classList.toggle('on',mtab==='R');$('#tU').classList.toggle('on',mtab==='U');$('#tS').classList.toggle('on',mtab==='S');
-if(mtab==='R'){const{data,error}=await sb.from('reports').select('id,reason,created_at,post:posts(id,title,body,author_id,author_name)').eq('resolved',false).order('created_at');
+if(mtab==='R'){const{data,error}=await sb.from('reports').select('id,reason,created_at,comment_id,post:posts(id,title,body,author_id,author_name,hidden),comment:comments(id,body,author_id,author_name,hidden)').eq('resolved',false).order('created_at');
 if(error){B.textContent=error.message;return}
-B.innerHTML=data.length?data.map(r=>`<div class="card" data-r="${r.id}"><small>${ago(Date.parse(r.created_at))} · reason: ${esc(r.reason||'')}</small><h3>${esc(r.post?r.post.title:'(post deleted)')}</h3><p>${esc(r.post?r.post.body.slice(0,200):'')}</p><small>by ${esc(r.post?r.post.author_name:'')}</small><div class="act"><button data-m="delp" data-p="${r.post?r.post.id:''}">🗑️ Delete post</button>${isAdmin()&&r.post?`<button data-m="ban" data-u="${r.post.author_id}">🚫 Ban author</button>`:''}<button data-m="dis">✓ Dismiss</button></div></div>`).join(''):'<div class="empty">No open reports 🎉</div>'}
+B.innerHTML=data.length?data.map(r=>`<div class="card" data-r="${r.id}"><small>${ago(Date.parse(r.created_at))} · reason: ${esc(r.reason||'')}</small><h3>${r.comment_id?'Comment on':'Post'}: ${esc(r.post?r.post.title:'(post deleted)')}</h3><p>${esc(r.comment?r.comment.body.slice(0,200):(r.post?r.post.body.slice(0,200):''))}</p><small>by ${esc(r.comment?r.comment.author_name:(r.post?r.post.author_name:''))}</small><div class="act"><button data-m="hideit" data-k="${r.comment_id?'c':'p'}" data-id="${r.comment_id||(r.post?r.post.id:'')}">Hide</button><button data-m="${r.comment_id?'delc2':'delp'}" data-p="${r.comment_id||(r.post?r.post.id:'')}">🗑️ Delete</button>${isAdmin()&&(r.comment||r.post)?`<button data-m="ban" data-u="${(r.comment||r.post).author_id}">🚫 Ban author</button>`:''}<button data-m="dis">✓ Dismiss</button></div></div>`).join(''):'<div class="empty">No open reports 🎉</div>'}
 else if(mtab==='S'){if(!isAdmin()){B.innerHTML='<div class="empty">Admins only.</div>';return}
 const{data,error}=await sb.rpc('admin_stats');if(error){B.textContent=error.message;return}
 const mb=(data.storage_bytes/1048576).toFixed(1),names=Object.fromEntries(all().map(c=>[c.id,c.name]));
@@ -308,13 +362,15 @@ $('#adm').onclick=()=>{mtab='R';$('#dM').showModal();panel()};
 $('#tR').onclick=()=>{mtab='R';panel()};$('#tU').onclick=()=>{mtab='U';panel()};$('#tS').onclick=()=>{mtab='S';panel()};$('#mX').onclick=()=>$('#dM').close();
 $('#mBody').onclick=async e=>{const b=e.target.closest('[data-m]');if(!b)return;const m=b.dataset.m,box=b.closest('[data-r]'),rid=box?box.dataset.r:null;let r;
 if(m==='delp'){if(!b.dataset.p||!confirm('Delete this post?'))return;r=await sb.from('posts').delete().eq('id',b.dataset.p)}
+else if(m==='hideit'){r=await sb.from(b.dataset.k==='c'?'comments':'posts').update({hidden:true}).eq('id',b.dataset.id);if(!r.error&&rid)await sb.from('reports').update({resolved:true}).eq('id',rid)}
+else if(m==='delc2'){if(!confirm('Delete this comment?'))return;r=await sb.from('comments').delete().eq('id',b.dataset.p)}
 else if(m==='dis')r=await sb.from('reports').update({resolved:true}).eq('id',rid);
 else if(m==='ban'){if(!confirm('Ban this user?'))return;r=await sb.from('profiles').update({banned:true}).eq('id',b.dataset.u)}
 else if(m==='tban')r=await sb.from('profiles').update({banned:b.dataset.v==='1'}).eq('id',b.dataset.u);
 else if(m==='tmod')r=await sb.from('profiles').update({role:b.dataset.v}).eq('id',b.dataset.u);
 if(r&&r.error){alert(r.error.message);return}await panel();loadP()};
 function dcMode(c){ui.edit=c?c.id:null;$('#cH').textContent=c?'Edit community':'Create a community';$('#cOk').textContent=c?'Save':'Create';$('#cE').value=c?c.emoji:'✨';$('#cN').value=c?c.name:'';$('#cT').value=c?c.tag:'';$('#cY').value=c?c.types.join(','):'Discussion,Question,Showcase';['cF1','cF2'].forEach((i,k)=>{const el=$('#'+i);el.value=c?((c.fields[k]||{}).label||''):'';el.disabled=!!c})}
-$('#hero').onclick=async e=>{const c=cur();if(e.target.id==='ced'){dcMode(c);$('#dC').showModal()}else if(e.target.id==='cdel'){if(!confirm('Delete "'+c.name+'" and ALL its posts? This cannot be undone.'))return;const{error}=await sb.rpc('delete_community',{cid:c.id});if(error){alert(error.message);return}await loadC();setCur('plants')}};
+$('#hero').onclick=async e=>{const c=cur();if(e.target.id==='jn'){if(needUser())return;const has=S.joined.has(c.id);const r=has?await sb.from('memberships').delete().match({user_id:S.u.id,community:c.id}):await sb.from('memberships').insert({community:c.id});if(r.error){alert(r.error.message);return}await loadMem();loadP();return}if(e.target.id==='ced'){dcMode(c);$('#dC').showModal()}else if(e.target.id==='cdel'){if(!confirm('Delete "'+c.name+'" and ALL its posts? This cannot be undone.'))return;const{error}=await sb.rpc('delete_community',{cid:c.id});if(error){alert(error.message);return}await loadC();setCur('plants')}};
 async function openProfile(){$('#pNm').textContent=nm();$('#pAv').innerHTML=avh(S.av,nm());$('#dP').showModal();
 const{data}=await sb.from('posts').select('id,community,title,created_at').eq('author_id',S.u.id).order('created_at',{ascending:false}).limit(50);const names=Object.fromEntries(all().map(c=>[c.id,c.name]));
 $('#pList').innerHTML=(data||[]).length?data.map(p=>`<div class="card" style="padding:10px 14px;display:flex;gap:10px;align-items:center"><div style="flex:1;cursor:pointer" data-go="${p.id}" data-c="${esc(p.community)}"><b>${esc(p.title)}</b><br><small>${esc(names[p.community]||p.community)} · ${ago(Date.parse(p.created_at))}</small></div><button class="x" data-dp="${p.id}">🗑️</button></div>`).join(''):'<div class="empty">You have not posted yet.</div>'}
@@ -326,17 +382,49 @@ async function loadN(){if(!sb)return;if(!S.u){$('#bell').hidden=true;return}$('#
 $('#bell').onclick=async()=>{const{data}=await sb.from('notifications').select('*').order('created_at',{ascending:false}).limit(30);
 $('#nList').innerHTML=(data||[]).length?data.map(n=>`<div class="card ${n.read?'':'unread'}" data-n="${n.post_id}" data-c="${esc(n.community||'')}" style="cursor:pointer"><div>${esc(n.message)}</div><small>${ago(Date.parse(n.created_at))}</small></div>`).join(''):'<div class="empty">No notifications yet.</div>';
 $('#dN').showModal();await sb.from('notifications').update({read:true}).eq('read',false);loadN()};
-$('#nList').onclick=e=>{const b=e.target.closest('[data-n]');if(!b)return;ui.cm[b.dataset.n]=true;$('#dN').close();setCur(b.dataset.c||S.cur)};
+$('#nList').onclick=e=>{const b=e.target.closest('[data-n]');if(!b)return;$('#dN').close();openPost(b.dataset.n)};
 document.addEventListener('click',e=>{if(e.target.id==='re'){$('#rT').value=S.rules||'';$('#dR').showModal()}});
 $('#rC').onclick=()=>$('#dR').close();
 $('#rS').onclick=async()=>{const t=$('#rT').value.trim();let r;if(!t){r=await sb.from('community_rules').delete().eq('community',S.cur)}else{r=await sb.from('community_rules').upsert({community:S.cur,rules:t,updated_by:S.u.id,updated_at:new Date().toISOString()})}if(r.error){alert(r.error.message);return}$('#dR').close();loadRules()};
+const sorted=()=>all().slice().sort((a,b)=>(S.joined.has(b.id)?1:0)-(S.joined.has(a.id)?1:0));
+const memberLine=c=>{const n=S.counts[c.id]||0;return n+(n===1?' member':' members')};
+async function loadMem(){if(CFG)return;const r=await sb.rpc('member_counts');S.counts={};(r.data||[]).forEach(x=>{S.counts[x.community]=Number(x.n)});S.joined=new Set();if(S.u){const m=await sb.from('memberships').select('community');(m.data||[]).forEach(x=>S.joined.add(x.community))}if(ui.hm===undefined)ui.hm=!!S.u&&S.joined.size>0;renderSide();renderHero();renderChips()}
+async function openPost(id){if(CFG)return;const{data}=await sb.from('posts').select(SEL).eq('id',id).maybeSingle();if(!data){alert('That post was not found. It may have been deleted.');return}ui.focus=data;S.cur=data.community;ui.type='All';ui.open=false;ui.lim=30;ui.cm[id]=true;S.posts=[data];S.rules=null;renderAll();loadP();loadRules();window.scrollTo(0,0)}
+$('#eC').onclick=()=>$('#dE').close();
+$('#eS').onclick=async()=>{const e=ui.ed;if(!e)return;const body=$('#eB').value.trim();if(!body){alert('The text cannot be empty.');return}let r;
+if(e.k==='p'){const t=$('#eT').value.trim();if(!t){alert('A title is required.');return}r=await sb.from('posts').update({title:t,body,tags:$('#eG').value.split(',').map(x=>x.trim().toLowerCase().replace(/^#/,'')).filter(Boolean)}).eq('id',e.id)}
+else r=await sb.from('comments').update({body}).eq('id',e.id);
+if(r.error){alert(r.error.message);return}$('#dE').close();loadP()};
+document.addEventListener('click',e=>{if(e.target.id==='more'){ui.lim=(ui.lim||30)+30;loadP()}});
+if('serviceWorker' in navigator&&location.protocol.startsWith('http'))addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}));
+function logo(c,sz){return`<span class="lg" style="width:${sz}px;height:${sz}px;font-size:${Math.round(sz*.6)}px;background:linear-gradient(135deg,hsl(${c.hue} 75% 52%),hsl(${(c.hue+35)%360} 80% 40%))">${ICO[c.id]?ic(ICO[c.id][0]):esc(c.emoji||'#')}</span>`}
+const INFO={rules:['Community guidelines','<ol><li>Be kind and respectful to everyone.</li><li>Post in the right community and use the tags.</li><li>No spam, scams or advertising.</li><li>No hate, harassment, threats or adult content.</li><li>Only share photos and videos you have the right to share.</li><li>Use <b>Report</b> on anything that breaks these rules.</li></ol><p>Moderators may remove posts and restrict accounts that break the guidelines.</p>'],
+privacy:['Privacy','<p><b>What we keep:</b> your email (private, used to log in and reset your password), your username (public), and the posts, comments, likes, photos and videos you share. Photos and videos can be opened by anyone who has the link.</p><p>We do not sell your data and we do not show ads.</p><p><b>Deleting your account:</b> open your profile and choose Delete account. This removes your account, posts, comments and likes. Uploaded files can take longer to disappear, so contact a moderator if you want them removed sooner.</p>'],
+about:['About Hobbyhive','<p>Hobbyhive is a home for small communities: plants, books, tech, games, music and more. Ask questions, share what you make and swap tips with people who love the same things.</p><p>It is free and has no ads. Found a problem? Use <b>Report</b> on a post, or tell a moderator.</p>']};
+document.addEventListener('click',e=>{const a=e.target.closest('[data-info]');if(!a)return;e.preventDefault();const t=INFO[a.dataset.info];$('#iT').textContent=t[0];$('#iB').innerHTML=t[1];$('#dI').showModal()});
+$('#pDel').onclick=async()=>{if(S.role==='admin'){alert('Admin accounts cannot be deleted here.');return}if(prompt('This permanently deletes your account, posts and comments. Type DELETE to confirm.')!=='DELETE')return;const r=await sb.rpc('delete_my_account');if(r.error){alert(r.error.message);return}$('#dP').close();window._mo=true;await sb.auth.signOut();window._mo=false;alert('Your account has been deleted.')};
+var USERV={id:'user',emoji:'',name:'Member',tag:'',hue:200,types:[],fields:[]};
+function mention(t){return esc(t).replace(/@([A-Za-z0-9_]{3,20})\b/g,'<a class="men" href="#user=$1">@$1</a>')}
+function profHero(u){const d=u.created_at?new Date(u.created_at).toLocaleDateString(undefined,{month:'long',year:'numeric'}):'';return`<div class="big"><div class="av" style="width:76px;height:76px;font-size:34px;border:3px solid rgba(255,255,255,.7)">${avh(u.avatar_url,u.name||'?')}</div></div><div><h1>${esc(u.name||'')}</h1><p>${d?'Joined '+d+' · ':''}${u.n||0} post${u.n==1?'':'s'}</p></div>`}
+async function openUser(name){if(CFG)return;const{data}=await sb.from('profiles').select('id,name,avatar_url,created_at').ilike('name',name.replace(/[\\%_]/g,'\\$&')).maybeSingle();if(!data){alert('That member was not found.');return}
+const c=await sb.from('posts').select('id',{count:'exact',head:true}).eq('author_id',data.id);data.n=c.count||0;ui.pf=data;S.cur='user';ui.type='All';ui.open=false;ui.lim=30;ui.focus=null;S.posts=[];S.rules=null;renderAll();loadP();window.scrollTo(0,0)}
+const MN={el:null,items:[],i:0,inp:null};
+function mnBox(){if(!MN.el){MN.el=document.createElement('div');MN.el.id='mn';MN.el.hidden=true;document.body.appendChild(MN.el);MN.el.addEventListener('mousedown',e=>{const li=e.target.closest('[data-mi]');if(li){e.preventDefault();mnPick(+li.dataset.mi)}})}return MN.el}
+function mnClose(){if(MN.el)MN.el.hidden=true;MN.items=[]}
+function mnRender(){const b=mnBox();if(!MN.items.length){b.hidden=true;return}b.innerHTML=MN.items.map((u,i)=>`<div class="mi${i===MN.i?' on':''}" data-mi="${i}"><span class="av">${avh(u.avatar_url,u.name)}</span>@${esc(u.name)}</div>`).join('');const r=MN.inp.getBoundingClientRect();b.style.left=Math.max(8,Math.min(r.left,innerWidth-250))+'px';b.style.top=(r.bottom+4)+'px';b.hidden=false}
+function mnPick(i){const u=MN.items[i];if(!u||!MN.inp)return;const el=MN.inp,pos=el.selectionStart,before=el.value.slice(0,pos).replace(/@[A-Za-z0-9_]*$/,'@'+u.name+' ');el.value=before+el.value.slice(pos);el.setSelectionRange(before.length,before.length);el.focus();mnClose()}
+let mnT;document.addEventListener('input',e=>{const el=e.target;if(!el.matches||!el.matches('.ci2,#pB,#eB')||!sb)return;const m=/(^|\s)@([A-Za-z0-9_]{1,20})$/.exec(el.value.slice(0,el.selectionStart));if(!m){mnClose();return}clearTimeout(mnT);mnT=setTimeout(async()=>{const q=m[2].replace(/[\\%_]/g,'\\$&');const{data}=await sb.from('profiles').select('name,avatar_url').ilike('name',q+'%').order('name').limit(6);if(document.activeElement!==el)return;MN.items=data||[];MN.i=0;MN.inp=el;mnRender()},180)});
+document.addEventListener('keydown',e=>{if(!MN.el||MN.el.hidden)return;if(e.key==='ArrowDown'||e.key==='ArrowUp'){e.preventDefault();e.stopPropagation();MN.i=(MN.i+(e.key==='ArrowDown'?1:-1)+MN.items.length)%MN.items.length;mnRender()}else if(e.key==='Enter'||e.key==='Tab'){e.preventDefault();e.stopPropagation();mnPick(MN.i)}else if(e.key==='Escape'){e.stopPropagation();mnClose()}},true);
+document.addEventListener('click',e=>{if(MN.el&&!MN.el.contains(e.target))mnClose()});addEventListener('scroll',mnClose,true);
 async function shrink(f,m=1600){if(!/^image\/(jpeg|png|webp)$/.test(f.type))return f;try{const bm=await createImageBitmap(f),k=Math.min(1,m/Math.max(bm.width,bm.height)),cv=document.createElement('canvas');cv.width=Math.round(bm.width*k);cv.height=Math.round(bm.height*k);const x=cv.getContext('2d');x.fillStyle='#fff';x.fillRect(0,0,cv.width,cv.height);x.drawImage(bm,0,0,cv.width,cv.height);const b=await new Promise(r=>cv.toBlob(r,'image/jpeg',0.82));return b&&b.size<f.size?new File([b],f.name.replace(/\.\w+$/,'')+'.jpg',{type:'image/jpeg'}):f}catch(e){return f}}
 $('#comp').onchange=e=>{if(e.target.id!=='pF')return;const pv=$('#pv');pv.innerHTML='';[...e.target.files].slice(0,4).forEach(f=>{const u=URL.createObjectURL(f);pv.insertAdjacentHTML('beforeend',f.type.startsWith('video')?`<video muted src="${u}"></video>`:`<img alt="" src="${u}">`)})};
 $('#feed').addEventListener('click',e=>{if(e.target.matches('.media img')){$('#lbi').src=e.target.src;$('#lb').showModal()}});
 $('#lb').onclick=()=>$('#lb').close();
-async function init(){await loadC();const{data}=await sb.auth.getSession();S.u=data.session?data.session.user:null;await loadMe();renderAll();loadP();loadRules();
-sb.auth.onAuthStateChange((_e,s)=>{console.log('auth event:',_e);const had=!!S.u;S.u=s?s.user:null;if(!S.u)ui.open=false;if(_e==='SIGNED_OUT'&&had&&!window._mo)alert('Supabase signed you out unexpectedly. Check that your computer clock is correct, and open the app from localhost or a hosted link instead of the Downloads folder.');setTimeout(async()=>{await loadMe();renderAll();loadP()},0)});
-setInterval(()=>{if(!document.hidden&&!ui.open&&!/INPUT|TEXTAREA/.test(document.activeElement.tagName)){loadP();loadN()}},20000)}
+async function init(){await loadC();const{data}=await sb.auth.getSession();S.u=data.session?data.session.user:null;await loadMe();await loadMem();if(HERR){S.flash='That link is invalid or has expired. Please request a new one.';location.hash='forgot'}if(REC&&S.u){S.recovery=true;route()}S.ready=true;if(POST0){history.replaceState(null,'',location.pathname+location.search);openPost(POST0)}renderAll();loadP();loadRules();
+sb.auth.onAuthStateChange((_e,s)=>{console.log('auth event:',_e);const had=!!S.u;S.u=s?s.user:null;if(!S.u)ui.open=false;if(_e==='SIGNED_OUT'&&had&&!window._mo)alert('You were signed out. Please log in again.');setTimeout(async()=>{await loadMe();await loadMem();renderAll();loadP()},0)});
+setInterval(()=>{if(!document.hidden&&!ui.open&&!/INPUT|TEXTAREA/.test(document.activeElement.tagName)){loadP();loadN()}},45000);
+const live=(()=>{let t;return()=>{clearTimeout(t);t=setTimeout(()=>{if(!ui.open&&!/INPUT|TEXTAREA/.test(document.activeElement.tagName))loadP();loadN()},700)}})();
+try{sb.channel('hh-live').on('postgres_changes',{event:'*',schema:'public',table:'posts'},live).on('postgres_changes',{event:'*',schema:'public',table:'comments'},live).on('postgres_changes',{event:'*',schema:'public',table:'likes'},live).on('postgres_changes',{event:'INSERT',schema:'public',table:'notifications'},()=>loadN()).subscribe()}catch(e){console.warn('Live updates unavailable',e)}}
 if(CFG){renderAll();$('#feed').innerHTML='<div class="empty">⚙️ Add your Supabase URL and anon key at the top of the script to go live (see setup steps).</div>'}else init();
 
 </script>
