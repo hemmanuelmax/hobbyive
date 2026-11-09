@@ -195,6 +195,7 @@ function renderChips(){if(S.cur==='user'){$('#chips').innerHTML='';return}if(S.c
 const SUPABASE_URL='https://mqwacsqxvdpctwicohoz.supabase.co',SUPABASE_KEY='sb_publishable_l1s0rJ2A1jQkM6RitOTtpw_ZzBtXXo1';
 const REC=/type=recovery/.test(location.hash),HERR=(location.hash.match(/error_description=([^&]+)/)||[])[1],POST0=(location.hash.match(/^#post=([0-9a-f-]{36})$/)||[])[1];
 const UMAMI_ID='';if(UMAMI_ID){const u=document.createElement('script');u.defer=true;u.src='https://cloud.umami.is/script.js';u.dataset.websiteId=UMAMI_ID;document.head.appendChild(u)}
+const LOGIN_FN='bright-function'; // name of the Supabase Edge Function that handles username login
 const CFG=SUPABASE_URL.startsWith('PASTE');
 const sb=CFG?null:supabase.createClient(SUPABASE_URL,SUPABASE_KEY,{auth:{lock:async(n,t,fn)=>await fn()}});
 let S={u:null,cur:'home',rules:null,custom:[],posts:[],joined:new Set(),counts:{},ready:false,more:false};
@@ -302,7 +303,7 @@ $('#afc').addEventListener('submit',async e=>{e.preventDefault();aErr('');if(CFG
 async function doLogin(){const id=$('#lI').value.trim(),pw=$('#lP').value;if(!id||!pw){aErr('Enter your email or username, and your password.');return}
 let err=null;
 if(id.includes('@')){const r=await sb.auth.signInWithPassword({email:id,password:pw});err=r.error}
-else{const{data,error}=await sb.functions.invoke('login',{body:{identifier:id,password:pw}});
+else{const{data,error}=await sb.functions.invoke(LOGIN_FN,{body:{identifier:id,password:pw}});
 if(error)err={message:'Username login is not switched on yet. Please log in with your email for now.'};
 else if(data&&data.error)err={message:data.error};
 else if(data&&data.session){const r=await sb.auth.setSession(data.session);err=r.error}
